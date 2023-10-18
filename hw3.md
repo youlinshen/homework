@@ -1,22 +1,21 @@
-# 第一章
-## 第二章
-### 第三章
+#C library (C 內建程式庫)
 
 
 
-This is an H1
+assert.h
 =============
-```
-#include <stdio.h>
+ctype.h
+=============
+math.h
+=============
+stdio.h
+=============
+stdlib.h
+=============
+stdint.h
+=============
+string.h
+=============
+time.h 
+=============
 
-int main(){
-    printf("char size = %d\n", sizeof(char));
-    printf("void size = %d\n", sizeof(void));
-    printf("int size = %d\n", sizeof(int));
-    printf("short size = %d\n", sizeof(short));
-    printf("long size = %d\n", sizeof(long));
-    printf("long long size=%d\n", sizeof(long long));
-}
-```
-
-fewffewfewf
