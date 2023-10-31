@@ -33,13 +33,13 @@ int main(){
         x = i + dx, y = j + dy;
         if (chess[x][y] == 0 && IN_CHESS(x,y))
             play = play | 0;
-        else if (chess[x][y] == 1 && IN_CHESS(x,y))
+        else if (chess[x][y] == color && IN_CHESS(x,y))
             play = play | 0;
-        else if (chess[x][y] == 2 && IN_CHESS(x,y)){
-            while (chess[x][y] == 2 && IN_CHESS(x,y)){
+        else if (chess[x][y] == 3-color && IN_CHESS(x,y)){
+            while (chess[x][y] == 3-color && IN_CHESS(x,y)){
                 x += dx;
                 y += dy;
-            if (chess[x][y] == 1 && IN_CHESS(x,y))
+            if (chess[x][y] == color && IN_CHESS(x,y))
                 play = true;
             }
         }
