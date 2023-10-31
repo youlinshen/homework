@@ -6,23 +6,29 @@
 
 int main(){
     int chess[8][8] = {{0, 0, 0, 0, 0, 0, 0, 0},
-                     {0, 0, 0, 0, 0, 0, 0, 0},
-                     {0, 0, 1, 1, 0, 0, 0, 0},
-                     {0, 0, 2, 1, 2, 2, 0, 0},
-                     {0, 0, 0, 1, 2, 0, 0, 0},
-                     {0, 0, 0, 2, 1, 0, 0, 0},
-                     {0, 0, 0, 0, 0, 0, 0, 0},
-                     {0, 0, 0, 0, 0, 0, 0, 0}};
-    int chess[8][8];
+                       {0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 1, 1, 0, 0, 0, 0},
+                       {0, 0, 2, 1, 2, 2, 0, 0},
+                       {0, 0, 0, 1, 2, 0, 0, 0},
+                       {0, 0, 0, 2, 1, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0}};
+    int next[8][8];
     int x, y, dx, dy;
     int i, j, color;
-
+    for (int p = 0;  <= 7; p++)
+      for (int q = 0; q <= 7; q++)
+        next[p][q] = 0
 }
-int checkNewStep(int chess[8][8], int next[8][8], int x, int y){
+    
 
+
+int checkNewStep(int chess[8][8], int next[8][8], int color){
+  int i, j, x, y, dx, dy;
   bool play = false;
-  scanf("%d%d%d", &i, &j, &color);
-  assert(IN_CHESS0(i,j,color));
+  
+  for (i = 0; i <= 7; i++)
+      for (j = 0; j <= 7; j++)
   if (chess[i][j] == 0)
     printf("(%d,%d) 空白 ", i, j);
   else if (chess[i][j] == 1){
@@ -51,10 +57,6 @@ int checkNewStep(int chess[8][8], int next[8][8], int x, int y){
     }
   if (play == true){
     if (color == 1)
-      printf("可以下黑子");
-    else
-      printf("可以下白子");
-  }
-  else
-    printf("不能下子");
+      next[i][j] = 1;
+
 }
