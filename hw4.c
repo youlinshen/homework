@@ -3,23 +3,7 @@
 #include <assert.h>
 #define IN_CHESS(x,y) (x >= 0 &&  x <= 7 && y >= 0 && y <= 7)
 
-int main(){
-    int color;
-    scanf("%d", &color);
-    assert(color ==1 || color ==2);
-    checkNewStepByColor(color);
-}
-
-int checkNewStepByColor(int color){
-    int chess[8][8] = {{0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 1, 1, 0, 0, 0, 0},
-                       {0, 0, 2, 1, 2, 2, 0, 0},
-                       {0, 0, 0, 1, 2, 0, 0, 0},
-                       {0, 0, 0, 2, 1, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0, 0, 0, 0}};
-    int next[8][8];
+int checkNewStepByColor(int chess[8][8], int next[8][8], int color){
     int x, y, dx, dy;
     int i, j;
     for (i = 0; i<= 7; i++)
@@ -46,4 +30,20 @@ int checkNewStepByColor(int color){
         for (j = 0; j <= 7; j++)
             if(next[i][j] == 1)
                 printf("(%d,%d) ", i, j);
+}
+
+int main(){
+    int chess[8][8] = {{0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 1, 1, 0, 0, 0, 0},
+                       {0, 0, 2, 1, 2, 2, 0, 0},
+                       {0, 0, 0, 1, 2, 0, 0, 0},
+                       {0, 0, 0, 2, 1, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0, 0, 0, 0}};
+    int next[8][8];
+    int color;
+    scanf("%d", &color);
+    assert(color ==1 || color ==2);
+    checkNewStepByColor(chess,next,color);
 }
