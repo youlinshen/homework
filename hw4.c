@@ -4,8 +4,7 @@
 #define IN_CHESS(x,y) (x >= 0 &&  x <= 7 && y >= 0 && y <= 7)
 
 int checkNewStepByColor(int chess[8][8], int next[8][8], int color){
-    int x, y, dx, dy;
-    int i, j;
+    int i, j, x, y, dx, dy;
     for (i = 0; i<= 7; i++)
         for (j = 0; j <= 7; j++)
             next[i][j] = 0;
@@ -15,13 +14,10 @@ int checkNewStepByColor(int chess[8][8], int next[8][8], int color){
                 for (dx = -1; dx <= 1; dx++)
                     for (dy = -1; dy <= 1; dy++){
                         x = i + dx, y = j + dy;
-                        if (chess[x][y] == 3-color && IN_CHESS(x,y)){
-                            while (chess[x][y] == 3-color && IN_CHESS(x,y)){
-                                x += dx;
-                                y += dy;
-                                if (chess[x][y] == color && IN_CHESS(x,y))
+                        while (chess[x][y] == 3-color && IN_CHESS(x,y)){
+                            x += dx, y += dy;
+                            if (chess[x][y] == color && IN_CHESS(x,y))
                                 next[i][j] = 1;
-                            }
                         }
                     }
             }  
