@@ -13,8 +13,7 @@ int main(){
                      {0, 0, 0, 2, 1, 0, 0, 0},
                      {0, 0, 0, 0, 0, 0, 0, 0},
                      {0, 0, 0, 0, 0, 0, 0, 0}};
-  int x, y, dx, dy;
-  int i, j, color;
+  int i, j, color, x, y, dx, dy;
   bool play = false;
   scanf("%d%d%d", &i, &j, &color);
   assert(IN_CHESS0(i,j,color));
