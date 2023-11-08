@@ -31,17 +31,10 @@ int main(){
   for (dx = -1; dx <= 1; dx++)
     for (dy = -1; dy <= 1; dy++){
         x = i + dx, y = j + dy;
-        if (chess[x][y] == 0 && IN_CHESS(x,y))
-            play = play | 0;
-        else if (chess[x][y] == color && IN_CHESS(x,y))
-            play = play | 0;
-        else if (chess[x][y] == 3-color && IN_CHESS(x,y)){
-            while (chess[x][y] == 3-color && IN_CHESS(x,y)){
-                x += dx;
-                y += dy;
+        while (chess[x][y] == 3-color && IN_CHESS(x,y)){
+            x += dx, y += dy;
             if (chess[x][y] == color && IN_CHESS(x,y))
                 play = true;
-            }
         }
     }
   if (play == true){
