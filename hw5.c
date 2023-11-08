@@ -4,8 +4,7 @@
 #define IN_CHESS(x,y) (x >= 0 &&  x <= 7 && y >= 0 && y <= 7)
 
 int CheckNewStepByColor(int chess[8][8], int next[8][8], int color){
-    int x, y, dx, dy;
-    int i, j;
+    int i, j, x, y, dx, dy;
     for (i = 0; i<= 7; i++)
         for (j = 0; j <= 7; j++)
             next[i][j] = 0;
@@ -15,13 +14,10 @@ int CheckNewStepByColor(int chess[8][8], int next[8][8], int color){
                 for (dx = -1; dx <= 1; dx++)
                     for (dy = -1; dy <= 1; dy++){
                         x = i + dx, y = j + dy;
-                        if (chess[x][y] == 3-color && IN_CHESS(x,y)){
-                            while (chess[x][y] == 3-color && IN_CHESS(x,y)){
-                                x += dx;
-                                y += dy;
-                                if (chess[x][y] == color && IN_CHESS(x,y))
+                        while (chess[x][y] == 3-color && IN_CHESS(x,y)){
+                            x += dx, y += dy;
+                            if (chess[x][y] == color && IN_CHESS(x,y))
                                 next[i][j] = 1;
-                            }
                         }
                     }
             }  
@@ -33,27 +29,20 @@ int CheckNewStepByColor(int chess[8][8], int next[8][8], int color){
     printf("\n");
 }
 
-int ChangeColor(int chess[8][8], int color, int i, int j, int dx, int dy){
-    i += dx;
-    j += dy;
-    while (chess[i][j] == 3-color && IN_CHESS(i,j)){
-        chess[i][j] = color;
-        i += dx;
-        j += dy;
-    }
-}
-
-int PlayChess(int chess[8][8], int color, int i, int j){
+int ChangeColor(int chess[8][8], int color, int i, int j){
     int x, y, dx, dy;
     for (dx = -1; dx <= 1; dx++)
         for (dy = -1; dy <= 1; dy++){
             x = i + dx, y = j + dy;
-            if (chess[x][y] == 3-color && IN_CHESS(x,y)){
-                while (chess[x][y] == 3-color && IN_CHESS(x,y)){
-                    x += dx;
-                    y += dy;
-                    if (chess[x][y] == color && IN_CHESS(x,y))
-                        ChangeColor(chess,color,i,j,dx,dy);
+            while (chess[x][y] == 3-color && IN_CHESS(x,y)){
+                x += dx, y += dy;
+                if (chess[x][y] == color && IN_CHESS(x,y)){
+                    int p = i, q = j;
+                    p += dx, q += dy;
+                    while (chess[p][q] == 3-color && IN_CHESS(p,q)){
+                        chess[p][q] = color;
+                        p += dx, q += dy;
+                    }
                 }
             }
         }
@@ -61,25 +50,21 @@ int PlayChess(int chess[8][8], int color, int i, int j){
 }
 
 int ChangeNumber(int chess[8][8], int color, int i, int j){
-    int x, y, dx, dy, t1, total;
+    int x, y, dx, dy, time, total[1] = {0};
     for (dx = -1; dx <= 1; dx++)
         for (dy = -1; dy <= 1; dy++){
-            x = i + dx, y = j + dy, t = 0;
-            if (chess[x][y] == 3-color && IN_CHESS(x,y)){
-                while (chess[x][y] == 3-color && IN_CHESS(x,y)){
-                    x += dx;
-                    y += dy;
-                    t += 1, total = 0;
-                    if (chess[x][y] == color && IN_CHESS(x,y)){
-                        time[0] += t;
-                    }
+            x = i + dx, y = j + dy, time = 0;
+            while (chess[x][y] == 3-color && IN_CHESS(x,y)){
+                x += dx, y += dy, time += 1;
+                if (chess[x][y] == color && IN_CHESS(x,y)){
+                    total[0] += time;
                 }
             }
         }
-    printf("翻轉%d個棋子\n", time[0]);
+    printf("翻轉%d個棋子\n", total[0]);
 }
 
-int PrintChess(int chess[8][8]){
+int PrintBoard(int chess[8][8]){
     for (int i = 0; i <= 7; i++){
         for (int j = 0; j <= 7; j++)
             printf("%d ", chess[i][j]);
@@ -97,14 +82,12 @@ int main(){
                        {0, 0, 0, 0, 0, 0, 0, 0},
                        {0, 0, 0, 0, 0, 0, 0, 0}};
     int next[8][8];
-    int squeeze[8][8];
     int color = 1, i, j;
-    PrintChess(chess);
+    PrintBoard(chess);
     CheckNewStepByColor(chess,next,color);
     scanf("%d%d", &i, &j);
     assert(next[i][j] == 1);
     ChangeNumber(chess,color,i,j);
-    PlayChess(chess,color,i,j);
-    PrintChess(chess);
+    ChangeColor(chess,color,i,j);
+    PrintBoard(chess);
 }
-
