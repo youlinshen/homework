@@ -31,6 +31,8 @@ int bank(int OriginalMoney[1], int mode){
             case 69:
                 printf("Europe exchange = %.f\n", change/33.42);
                 break;
+            default:
+                return 0;
             }
             OriginalMoney[0] -= change; 
         }
@@ -39,6 +41,8 @@ int bank(int OriginalMoney[1], int mode){
             return 0;
         }
         break;
+    default:
+        return 0;
     }
     printf("Balance = %d\n", OriginalMoney[0]);
     return 0;
