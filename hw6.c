@@ -102,16 +102,14 @@ int main(){
     int total[1], color = 1, i, j;
     bool next[8][8];
     while (1){
-    PrintBoard(chess);
-    CheckNewStepByColor(chess,next,color);
-    scanf("%d%d", &i, &j);
-    //i = 0, j = 1;
-    assert(next[i][j] == 1);
-    ChangeQuantity(chess,color,total,i,j);
-    ChangeColor(chess,color,i,j);
-    printf("黑子下(%d,%d)  翻轉%d個棋子\n", i, j, total[0]);
-    PrintBoard(chess);
-    computer(chess,color,next,total);
-    //PrintBoard(chess);
+        PrintBoard(chess);
+        CheckNewStepByColor(chess,next,color);
+        scanf("%d%d", &i, &j);
+        assert(next[i][j] == 1);
+        ChangeQuantity(chess,color,total,i,j);
+        ChangeColor(chess,color,i,j);
+        printf("黑子下(%d,%d)  翻轉%d個棋子\n", i, j, total[0]);
+        PrintBoard(chess);
+        computer(chess,color,next,total);
     }
 }
