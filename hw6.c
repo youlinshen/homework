@@ -1,12 +1,13 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <assert.h>
 #define IN_CHESS(x,y) (x >= 0 &&  x <= 7 && y >= 0 && y <= 7)
 
-int CheckNewStepByColor(int chess[8][8], int next[8][8], int color){
+int CheckNewStepByColor(int chess[8][8], bool next[8][8], int color){
     int i, j, x, y, dx, dy;
     for (i = 0; i<= 7; i++)
         for (j = 0; j <= 7; j++)
-            next[i][j] = 0;
+            next[i][j] = false;
     for (i = 0; i <= 7; i++)
         for (j = 0; j <= 7; j++){
             if (chess[i][j] == 0){
@@ -16,14 +17,14 @@ int CheckNewStepByColor(int chess[8][8], int next[8][8], int color){
                         while (chess[x][y] == 3-color && IN_CHESS(x,y)){
                             x += dx, y += dy;
                             if (chess[x][y] == color && IN_CHESS(x,y))
-                                next[i][j] = 1;
+                                next[i][j] = true;
                         }
                     }
             }  
         }
     for (i = 0; i <= 7; i++)
         for (j = 0; j <= 7; j++)
-            if(next[i][j] == 1)
+            if(next[i][j] == true)
                 printf("(%d,%d) ", i, j);
     printf("\n");
 }
@@ -63,7 +64,7 @@ int ChangeNumber(int chess[8][8], int color, int total[1], int i, int j){
         }
 }
 
-int computer(int chess[8][8], int color, int next[8][8], int total[1]){
+int computer(int chess[8][8], int color, bool next[8][8], int total[1]){
     int sum = 0, x, y;
     color = 3 - color;
     CheckNewStepByColor(chess,next,color);
@@ -71,7 +72,7 @@ int computer(int chess[8][8], int color, int next[8][8], int total[1]){
         for (int j = 0; j < 8; j++){
             if (next[i][j] = 1){
                 ChangeNumber(chess,color,total,i,j);
-                if (total[0]> sum){
+                if (total[0] >= sum){
                     sum = total[0];
                     x = i, y = j;
                 }
@@ -98,8 +99,8 @@ int main(){
                        {0, 0, 2, 0, 0, 0, 0, 0},
                        {0, 0, 0, 0, 0, 0, 0, 0},
                        {0, 0, 0, 0, 0, 0, 0, 0}};
-    int next[8][8], total[1];
-    int color = 1, i, j;
+    int total[1], color = 1, i, j;
+    bool next[8][8];
     PrintBoard(chess);
     CheckNewStepByColor(chess,next,color);
     scanf("%d%d", &i, &j);
