@@ -64,7 +64,7 @@ int ChangeQuantity(int chess[8][8], int color, int total[1], int i, int j){
         }
 }
 
-int computer(int chess[8][8], int color, bool next[8][8], int total[1]){
+int computer(int chess[8][8], int color, bool next[8][8], int total[1], bool finish[2]){
     int sum = 0, x, y;
     color = 3 - color;
     CheckNewStepByColor(chess,next,color);
@@ -78,8 +78,10 @@ int computer(int chess[8][8], int color, bool next[8][8], int total[1]){
                 }
             }  
         }
-    if (sum == 0)
+    if (sum == 0){
+        finish[1] = false;
         return 0;
+    }
     ChangeColor(chess,color,x,y);
     printf("白子下(%d,%d)  翻轉%d個棋子\n", x, y, sum);
 }
@@ -92,9 +94,18 @@ int PrintBoard(int chess[8][8]){
     }
 }
 
-int player(int chess[8][8], int color, bool next[8][8], int total[1]){
-    int i, j;
+int player(int chess[8][8], int color, bool next[8][8], int total[1], bool finish[2]){
+    int i, j, p = 0;
     CheckNewStepByColor(chess,next,color);
+    for (int i = 0; i <= 7; i++){
+        for (int j = 0; j <= 7; j++)
+            if (next[i][j] == true)
+                p = 1;
+    }
+    if (p == 0){
+        finish[0] = false;
+        return 0;
+    }
     scanf("%d%d", &i, &j);
     assert(next[i][j] == 1);
     ChangeQuantity(chess,color,total,i,j);
@@ -112,11 +123,11 @@ int main(){
                        {0, 0, 0, 0, 0, 0, 0, 0},
                        {0, 0, 0, 0, 0, 0, 0, 0}};
     int total[1], color = 1;
-    bool next[8][8];
-    while (1){
+    bool next[8][8], finish[2] = {true, true};
+    while (finish[0] == true || finish[1] == true){
         PrintBoard(chess);
-        player(chess,color,next,total);
+        player(chess,color,next,total,finish);
         PrintBoard(chess);
-        computer(chess,color,next,total);
+        computer(chess,color,next,total,finish);
     }
 }
