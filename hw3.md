@@ -7,7 +7,8 @@
 # ctype.h
 
 # math.h
-在linux的環境下使用math.h裡的函數，在編譯時必須加上參數-lm
+#### 在linux的環境下使用math.h裡的函數，在編譯時必須加上參數-lm
+    gcc hw.c -lm
 #### 範例
     #include <stdio.h>
     #include <math.h>
