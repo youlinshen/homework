@@ -12,8 +12,8 @@ int main(){
     for (i = 2; i < n+1; i++)
         for (j = 2; i*j < n+1; j++)
             prime[i*j] = false;
-    for (k = 2; k < n+1; k++)
-        if (prime[k] == 1)
-            printf("%d ", k);        
+   
+ if (prime[n] == 1)
+            printf("1");        
     return 0;
 }
