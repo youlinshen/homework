@@ -14,6 +14,8 @@ int main(){
             prime[i*j] = false;
    
  if (prime[n] == 1)
-            printf("1");        
+            printf("1");    
+else
+printf("0");    
     return 0;
 }
