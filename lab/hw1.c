@@ -10,7 +10,7 @@ int main(){
     for (i = 0; i < n; i++)
         for (j = 0; j < n; j++)
             if (Identity_matrix[i][j] != 0 && Identity_matrix[i][j] != 1){
-                printf("否");
+                printf("no");
                 return 0;
             }
     for (i = 0; i < n; i++){
@@ -18,17 +18,17 @@ int main(){
             if (j == k)
                 continue;
             else if (Identity_matrix[i][j] != 0){
-                printf("否");
+                printf("no");
                 return 0;
             }
         }    
         if (Identity_matrix[i][k] == 1)
             k += 1;
         else{
-            printf("否");
+            printf("no");
             return 0;
         }
     }
-    printf("是");   
+    printf("yes");   
     return 0;
 }
