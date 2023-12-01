@@ -1,34 +1,20 @@
 #include <stdio.h>
 
 int main(){
-    int n, i, j, k = 0;
+    int n, temp, i, j;
     scanf("%d", &n);
-    int Identity_matrix[n][n];
+    int number[n];
     for (i = 0; i < n; i++)
-        for (j = 0; j < n; j++)
-            scanf("%d", &Identity_matrix[i][j]);
-    for (i = 0; i < n; i++)
-        for (j = 0; j < n; j++)
-            if (Identity_matrix[i][j] != 0 && Identity_matrix[i][j] != 1){
-                printf("no");
-                return 0;
-            }
-    for (i = 0; i < n; i++){
-        for (j = 0; j < n; j++){
-            if (j == k)
-                continue;
-            else if (Identity_matrix[i][j] != 0){
-                printf("no");
-                return 0;
-            }
-        }    
-        if (Identity_matrix[i][k] == 1)
-            k += 1;
-        else{
-            printf("no");
-            return 0;
+        scanf("%d", &number[i]);
+    for (j = n; j > 0; j--){
+    for ( i = 0; i < j-1; i++)
+        if (number[i] > number[i+1]){
+            temp = number[i];
+            number[i] = number[i+1];
+            number[i+1] = temp;
         }
     }
-    printf("yes");   
+    for ( i = 0; i < n; i++)
+        printf("%d ", number[i]);
     return 0;
 }
