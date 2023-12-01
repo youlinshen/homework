@@ -13,7 +13,7 @@ int main(){
                 printf("否");
                 return 0;
             }
-    for (i = 0; i < n; i++)
+    for (i = 0; i < n; i++){
         for (j = 0; j < n; j++){
             if (j == k)
                 continue;
@@ -27,7 +27,8 @@ int main(){
         else{
             printf("否");
             return 0;
-        } 
+        }
+    }
     printf("是");   
     return 0;
 }
