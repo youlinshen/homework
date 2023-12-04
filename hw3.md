@@ -127,6 +127,19 @@ printf 是用來印東西的函數，根據變數的資料型態的不同，在%
 
 # stdlib.h
 
+### abs()
+#### int abs(int x)
+    #include <stdio.h>
+    #include <stdlib.h>
+ 
+    int main(){
+        int a = -10;
+        a = abs(a);
+        printf("%d", a);
+    }
+### 輸出
+    10
+
 # stdint.h
 
 # string.h
