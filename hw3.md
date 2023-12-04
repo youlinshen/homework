@@ -42,7 +42,19 @@
     }
 ### 輸出
     5.000000
-### int abs(int)
+### fabs()
+#### double fabs(double x)
+    #include <stdio.h>
+    #include <math.h>
+ 
+    int main(){
+        float a = -1.5;
+        a = fabs(a);
+        printf("%f", a);
+    }
+### 輸出
+    1.500000
+
 
 # stdio.h
 
