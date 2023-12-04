@@ -1,8 +1,27 @@
 # C library (C 內建程式庫)
 
 
-
 # assert.h
+### assert()
+#### void assert(int expression)
+    #include <stdio.h>
+    #include <assert.h>
+ 
+    int main(){
+        int a ;
+        scanf("%d", &a);
+        assert(a > 0);
+        printf("%d", a);
+    }
+### 輸入1
+    5
+### 輸出1
+    5
+### 輸入2
+    -10
+### 輸出2
+    assertion "a > 0" failed: file "hw.c", line 7, function: main
+      0 [main] a 1585 cygwin_exception::open_stackdumpfile: Dumping stack trace to a.exe.stackdump
 
 # ctype.h
 
@@ -77,7 +96,7 @@
  
     int main(){
         float a ;
-        a = sin(1.57);
+        a = cos(0);
         printf("%f", a);
     }
 ### 輸出
