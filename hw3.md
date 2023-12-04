@@ -23,7 +23,7 @@
     /home/shen/codes/hw7.c:6: undefined reference to `sqrt'
     collect2: error: ld returned 1 exit status
 ### pow()
-#### double pow(double, double)
+#### double pow(double x, double y)
     #include <stdio.h>
     #include <math.h>
  
@@ -32,8 +32,9 @@
     }
 ### 輸出
     32.000000
+
 ### sqrt()
-#### double sqrt(double)
+#### double sqrt(double x)
     #include <stdio.h>
     #include <math.h>
  
@@ -42,6 +43,7 @@
     }
 ### 輸出
     5.000000
+
 ### fabs()
 #### double fabs(double x)
     #include <stdio.h>
@@ -55,6 +57,31 @@
 ### 輸出
     1.500000
 
+### sin()
+#### double sin(double x)
+    #include <stdio.h>
+    #include <math.h>
+ 
+    int main(){
+        float a ;
+        a = sin(1.57);
+        printf("%f", a);
+    }
+### 輸出
+    1.000000
+
+### cos()
+#### double cos(double x)
+    #include <stdio.h>
+    #include <math.h>
+ 
+    int main(){
+        float a ;
+        a = sin(1.57);
+        printf("%f", a);
+    }
+### 輸出
+    1.000000
 
 # stdio.h
 
