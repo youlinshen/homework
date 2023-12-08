@@ -8,14 +8,16 @@ int main(){
         scanf("%f%f", &height[i], &weight[i]);
     float BMI[n];
     for (i = 0; i < n; i++)
+        BMI[i] = weight[i]/(height[i]*height[i]);
+    for ( i = 0; i < n; i++)
     {
-        /* code */
+        if (BMI[i] = )
+        {
+            /* code */
+        }
+        
     }
     
-    int look_for[m];
-    for ( i = 0; i < m; i++)
-        scanf("%d", &look_for[i]);
-    for ( i = 0; i < m; i++)
-        Look_for(n, look_for[i], class);
+    
     return 0;
 }
