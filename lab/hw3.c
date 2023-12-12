@@ -8,7 +8,7 @@ int main(){
         scanf("%f%f", &height[i], &weight[i]);
     float BMI[n];
     for (i = 0; i < n; i++)
-        BMI[i] = weight[i]/(height[i]*height[i]);
+        BMI[i] = weight[i]/(height[i]*height[i]*0.0001);
     printf("Underweight:");
     for ( i = 0; i < n; i++)
         if (BMI[i] < 18.5)
