@@ -1,7 +1,7 @@
 # C library (C 內建程式庫)
 
 
-# assert.h
+# **assert.h**
 ### assert()
 #### void assert(int expression)
     #include <stdio.h>
@@ -23,9 +23,9 @@
     assertion "a > 0" failed: file "hw.c", line 7, function: main
       0 [main] a 1585 cygwin_exception::open_stackdumpfile: Dumping stack trace to a.exe.stackdump
 
-# ctype.h
+# **ctype.h**
 
-# math.h
+# **math.h**
 #### 在linux的環境下使用math.h裡的函數，在編譯時必須加上參數-lm
     gcc hw.c -lm
 #### 範例
@@ -102,7 +102,7 @@
 ### 輸出
     1.000000
 
-# stdio.h
+# **stdio.h**
 
 ### stdbuf()
 #### 範例
@@ -125,7 +125,7 @@
 #### 說明
 printf 是用來印東西的函數，根據變數的資料型態的不同，在%之後要使用不同的
 
-# stdlib.h
+# **stdlib.h**
 
 ### abs()
 #### int abs(int x)
