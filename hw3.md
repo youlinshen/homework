@@ -3,7 +3,8 @@
 
 # **assert.h**
 ### assert()
-#### void assert(int expression)
+*assert(int expression)*
+
     #include <stdio.h>
     #include <assert.h>
  
@@ -13,7 +14,8 @@
         assert(a > 0);
         printf("%d", a);
     }
-### 輸入1
+> 輸入1
+
     5
 ### 輸出1
     5
