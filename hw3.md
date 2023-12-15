@@ -2,8 +2,8 @@
 
 
 # **assert.h**
-### assert()
-*assert(int expression)*
+## assert()
+assert(int expression)
 
     #include <stdio.h>
     #include <assert.h>
@@ -14,21 +14,26 @@
         assert(a > 0);
         printf("%d", a);
     }
-> 輸入1
+
+輸入1
+
+    5 
+輸出1
 
     5
-### 輸出1
-    5
-### 輸入2
+輸入2
+
     -10
-### 輸出2
+輸出2
+
     assertion "a > 0" failed: file "hw.c", line 7, function: main
       0 [main] a 1585 cygwin_exception::open_stackdumpfile: Dumping stack trace to a.exe.stackdump
 
 # **ctype.h**
 
 # **math.h**
-#### 在linux的環境下使用math.h裡的函數，在編譯時必須加上參數-lm
+> 在linux的環境下使用math.h裡的函數，在編譯時必須加上參數-lm
+
     gcc hw.c -lm
 #### 範例
     #include <stdio.h>
