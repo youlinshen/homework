@@ -35,7 +35,8 @@ assert(int expression)
 > 在linux的環境下使用math.h裡的函數，在編譯時必須加上參數-lm
 
     gcc hw.c -lm
-#### 範例
+範例
+
     #include <stdio.h>
     #include <math.h>
  
@@ -43,35 +44,39 @@ assert(int expression)
         int a = 16;
         printf("%f", sqrt(a));
     }
-#### error
+error
+
     :~/codes$ gcc -g hw.c
     /usr/bin/ld: /tmp/cclsrtWR.o: in function `main':
     /home/shen/codes/hw7.c:6: undefined reference to `sqrt'
     collect2: error: ld returned 1 exit status
-### pow()
-#### double pow(double x, double y)
+## pow()
+double pow(double x, double y)
+
     #include <stdio.h>
     #include <math.h>
  
     int main(){
         printf("%f", pow(2,5));
     }
-### 輸出
-    32.000000
+輸出
 
-### sqrt()
-#### double sqrt(double x)
+    32.000000
+## sqrt()
+double sqrt(double x)
+
     #include <stdio.h>
     #include <math.h>
  
     int main(){
         printf("%f", sqrt(25));
     }
-### 輸出
-    5.000000
+輸出
 
-### fabs()
-#### double fabs(double x)
+    5.000000
+## fabs()
+double fabs(double x)
+
     #include <stdio.h>
     #include <math.h>
  
@@ -80,11 +85,13 @@ assert(int expression)
         a = fabs(a);
         printf("%f", a);
     }
-### 輸出
+輸出
+
     1.500000
 
-### sin()
-#### double sin(double x)
+## sin()
+double sin(double x)
+
     #include <stdio.h>
     #include <math.h>
  
@@ -93,11 +100,12 @@ assert(int expression)
         a = sin(1.57);
         printf("%f", a);
     }
-### 輸出
-    1.000000
+輸出
 
-### cos()
-#### double cos(double x)
+    1.000000
+## cos()
+double cos(double x)
+
     #include <stdio.h>
     #include <math.h>
  
@@ -106,21 +114,18 @@ assert(int expression)
         a = cos(0);
         printf("%f", a);
     }
-### 輸出
-    1.000000
+輸出
 
+    1.000000
 # **stdio.h**
 
-### stdbuf()
-#### 範例
-    /*if ( 1 != scanf("%d", &mode)) {
-            mode = 0;    
-            setbuf(stdin, NULL);
-        }*/
+## stdbuf()
+範例
 
-### printf()
 
-#### 範例
+## printf()
+
+範例
 
     #include <stdio.h>
 
@@ -129,13 +134,15 @@ assert(int expression)
             printf("DEC number = %3d, ASCII character = %c\n", i, i);
         } 
     }
-#### 說明
+說明
+
 > printf 是用來印東西的函數，根據變數的資料型態的不同，在%之後要使用不同的
 
 # **stdlib.h**
 
-### abs()
-#### int abs(int x)
+## abs()
+int abs(int x)
+
     #include <stdio.h>
     #include <stdlib.h>
  
@@ -144,7 +151,8 @@ assert(int expression)
         a = abs(a);
         printf("%d", a);
     }
-### 輸出
+輸出
+
     10
 
 # stdint.h
