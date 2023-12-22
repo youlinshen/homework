@@ -1,18 +1,11 @@
+#include <stdio.h>
+ 
 int main(){
-    int n, m, i, j, sum = 0; 
-    scanf("%d", &n);
-    int class[n];
-    for (i = 0; i < n; i++)
-        scanf("%d", &class[i]);
-    scanf("%d", &m);
-    int look_for[m];
-    for ( i = 0; i < m; i++)
-        scanf("%d", &look_for[i]);
-    for ( j = 0; j < m; j++)
-        for ( i = 0; i < n; i++){
-            sum += class[i];
-            if (look_for[j] <= sum)
-                printf("%d ", i+1);
-        }
+    int A[4] = {9, 3, 4, 5}, B[4] = {5, 4, 3, 8};
+    int AB[4] = {A[0]*B[0]+A[1]*B[2], 
+                 A[0]*B[1]+A[1]*B[3], 
+                 A[2]*B[0]+A[3]*B[2], 
+                 A[2]*B[1]+A[3]*B[3]}; 
+    printf("%d %d %d %d\n", AB[0], AB[1], AB[2], AB[3]);
     return 0;
 }
