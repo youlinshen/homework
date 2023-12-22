@@ -1,6 +1,2 @@
-4 5
-1 Stone 4 Stone
-3 Paper 2 Stone
-3 Stone 4 Paper
-1 Scissors 2 Scissors
-4 Scissors 2 Stone
+6 3
+3 2 2 4 1 4
