@@ -4,9 +4,9 @@
 
 int main(){
     char calculation[length];
-    int temp = 0, sum = 0;
+    int temp = 0, sum = 0, i;
     fgets(calculation, length, stdin);
-    for(int i = 0; i < 501; i++){
+    for(i = 0; i < 501; i++){
         switch(calculation[i]){
         case '<':
             temp += 10;
