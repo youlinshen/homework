@@ -1,1 +1,13 @@
-<<<<<//// + <<<<<<</////// + <<//
+Mary 4 5
+Terry 12 23
+John 13 15
+Ted 20 17
+Ryan 15 15
+Kay 1 1
+Sally 9 9
+Alex 10 11
+Ada 14 18
+Allen 20 18
+Carla 4 6
+Cora 6 8
+Ava 9 12

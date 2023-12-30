@@ -1,43 +1,66 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
-
+ 
 typedef struct Node{
     int data;
     struct Node* next;
 } node;
-
-int insert(node **ptr, int data){
-    //node *ptr = head;
-    if(*ptr != NULL)
-        for(; *ptr != NULL; *ptr = *ptr->next)
-            if(ptr->next == NULL){
-                ptr->next = (node*)malloc(sizeof(node));
-                ptr = ptr->next;
-                ptr->data = data;
-                ptr->next = NULL;
-                return 0;
-            }
-    else if(ptr == NULL){
-        head = (node*)malloc(sizeof(node));
-        head->data = data;
-        head->next = NULL;
-        return 0;
+ 
+int insert(node **head, int value){
+    node *new = (node*)malloc(sizeof(node));
+    new->data = value;
+    new->next = NULL;
+    if(*head != NULL){
+        node *last = *head;
+        while(last->next != NULL)
+            last = last->next;
+        last->next = new;
     }
+    else
+        *head = new;
+    return 0;
 }
-
+ 
 int print_list(node *head){
     for(; head != NULL; head = head->next)
         printf("%d ", head->data);
+    printf("\n");
+    return 0;
 }
-
+ 
+int delete(node *last){
+    node *temp;
+    while(last->next != NULL){
+        temp = last;
+        last = last->next;
+    }
+    free(last);
+    temp->next = NULL;
+    return 0;
+}
+ 
 int main(){
-    int data;
+    int value, mode;
     node *head = NULL;
-    //node *list1 = (node*)malloc(sizeof(node));
-    //assert(list1 != NULL);
-    printf("%d\n", scanf("%d", &data));
-    printf("%p\n", head);
-    insert(&head, data);
-    print_list(head);
+    while(1){
+        if( 1 != scanf("%d", &mode)){
+            mode = 4;
+            setbuf(stdin, NULL);
+        }
+        switch(mode){
+            case 0:
+                return 0;
+            case 1:
+                scanf("%d", &value);
+                insert(&head, value);
+                break;
+            case 2:
+                delete(head);
+                break;
+            case 3:
+                print_list(head);
+            default:
+                break;
+        }
+    }
 }

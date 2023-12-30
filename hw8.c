@@ -59,3 +59,4 @@ int main(){
         printf("move to %d, %d\n", current_position.x,current_position.y);
     }
 }
+
