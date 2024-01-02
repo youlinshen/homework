@@ -56,6 +56,8 @@ error
     /home/shen/codes/hw7.c:6: undefined reference to `sqrt'
     collect2: error: ld returned 1 exit status
 ## pow()
+>返回x^y的值
+
 double pow(double x, double y)
 
     #include <stdio.h>
@@ -68,6 +70,8 @@ double pow(double x, double y)
 
     32.000000
 ## sqrt()
+>返回x的平方根
+
 double sqrt(double x)
 
     #include <stdio.h>
@@ -80,21 +84,23 @@ double sqrt(double x)
 
     5.000000
 ## fabs()
+>返回x的絕對值
+
 double fabs(double x)
 
     #include <stdio.h>
     #include <math.h>
  
     int main(){
-        float a = -1.5;
-        a = fabs(a);
-        printf("%f", a);
+        printf("%f", fabs(-1.5));
     }
 輸出
 
     1.500000
 
 ## sin()
+>返回弧度角 x 的正弦
+
 double sin(double x)
 
     #include <stdio.h>
@@ -109,6 +115,8 @@ double sin(double x)
 
     1.000000
 ## cos()
+>返回弧度角 x 的餘弦
+
 double cos(double x)
 
     #include <stdio.h>
