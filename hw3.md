@@ -137,20 +137,48 @@ double cos(double x)
 
 
 ## printf()
+>發送格式化輸出到標準輸出 stdout
+
+Return Value
+>If successful, the total number of characters written is returned. On failure, a negative number is returned.
 
 範例
 
     #include <stdio.h>
 
-    int main(){
-        for (int i = 97; i <= 122; i++){
-            printf("DEC number = %3d, ASCII character = %c\n", i, i);
-        } 
+    int main() {
+        printf("Hello world");
+        return 0;
     }
-說明
+輸出
 
-> printf 是用來印東西的函數，根據變數的資料型態的不同，在%之後要使用不同的
+    Hello world
 
+## scanf()
+>從標準輸入 stdin 讀取格式化輸入
+
+Return Value
+>On success, the function returns the number of items of the argument list successfully read. If a reading error happens or the end-of-file is reached while reading, the proper indicator is set (feof or ferror) and, if either happens before any data could be successfully read, EOF is returned.
+
+int scanf(const char *format, ...)
+
+範例
+
+    #include <stdio.h>
+    int main() {
+        int a;
+        scanf("%d", &a);
+        printf("%d", a);
+    }
+
+輸入
+
+    10
+
+輸出
+
+    10
+    
 # **stdlib.h**
 
 ## abs()
@@ -176,3 +204,6 @@ int abs(int x)
 
 # stdbool.h
 
+# References
+1. https://www.tutorialspoint.com/c_standard_library/index.htm
+2. https://www.runoob.com/cprogramming/c-standard-library.html
