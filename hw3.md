@@ -133,11 +133,35 @@ double cos(double x)
 # **stdio.h**
 
 ## stdbuf()
+>The C library function void setbuf(FILE *stream, char *buffer) defines how a stream should be buffered. This function should be called once the file associated with the stream has already been opened, but before any input or output operation has taken place.
+
+Return Value
+>This function does not return any value.
+
+void setbuf(FILE *stream, char *buffer)
+
 範例
 
+    #include <stdio.h>
+
+    int main () {
+       char buf[BUFSIZ];
+
+       setbuf(stdout, buf);
+       puts("Hello World");
+
+       fflush(stdout);
+       return(0);
+    }
+
+輸出
+
+    Hello World
 
 ## printf()
 >發送格式化輸出到標準輸出 stdout
+
+int printf(const char *format, ...)
 
 Return Value
 >If successful, the total number of characters written is returned. On failure, a negative number is returned.
@@ -179,10 +203,54 @@ int scanf(const char *format, ...)
 
     10
 
-# fgets()
+## fgets()
+>從指定的流中讀取一行，並將其存儲到 str 指向的字元串中。當讀取 （n-1） 個字元、讀取換行符或到達檔末尾（以先到者為準）時，它將停止。
 
-# puts()
-    
+Return Value
+>On success, the function returns the same str parameter. If the End-of-File is encountered and no characters have been read, the contents of str remain unchanged and a null pointer is returned.
+>
+>If an error occurs, a null pointer is returned.
+
+char *fgets(char *str, int n, FILE *stream)
+
+範例
+
+    #include <stdio.h>
+
+    int main () {
+        char str[12];
+        fgets(str, 12, stdin);
+        puts(str);
+    }
+
+輸入
+
+    Hello World
+
+輸出
+
+    Hello World
+
+## puts()
+>將字串寫入 stdout，但不包括空字元。換行符將追加到輸出中
+
+int puts(const char *str)
+
+Return Value
+>If successful, non-negative value is returned. On error, the function returns EOF.
+
+範例
+
+    #include <stdio.h>
+
+    int main () {
+       puts("Hello World");
+    }
+
+輸出
+
+    Hello World
+
 # **stdlib.h**
 
 ## abs()
