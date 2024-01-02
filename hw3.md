@@ -3,6 +3,11 @@
 
 # **assert.h**
 ## assert()
+>檢查括號的條件為false(0)則終止，非0則繼續執行
+
+Return Value
+>This macro does not return any value.
+
 assert(int expression)
 
     #include <stdio.h>
