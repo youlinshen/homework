@@ -178,6 +178,10 @@ int scanf(const char *format, ...)
 輸出
 
     10
+
+# fgets()
+
+# puts()
     
 # **stdlib.h**
 
