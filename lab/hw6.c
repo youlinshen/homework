@@ -21,13 +21,6 @@ int insert(node **head, int value){
     return 0;
 }
  
-int print_list(node *head){
-    for(; head != NULL; head = head->next)
-        printf("%d ", head->data);
-    printf("\n");
-    return 0;
-}
- 
 int delete(node *last){
     node *temp;
     while(last->next != NULL){
@@ -38,10 +31,18 @@ int delete(node *last){
     temp->next = NULL;
     return 0;
 }
- 
+
+int print_list(node *head){
+    for(; head != NULL; head = head->next)
+        printf("%d ", head->data);
+    printf("\n");
+    return 0;
+}
+
 int main(){
-    int value, mode;
-    node *head = NULL;
+    int value;
+    int mode;
+    node *head = NULL;.
     while(1){
         if( 1 != scanf("%d", &mode)){
             mode = 4;
