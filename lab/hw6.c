@@ -22,13 +22,14 @@ int insert(node **head, int value){
 }
  
 int delete(node *last){
-    node *temp;
+    node *temp = NULL;
     while(last->next != NULL){
         temp = last;
         last = last->next;
     }
     free(last);
-    temp->next = NULL;
+    if(temp != NULL)
+        temp->next = NULL;
     return 0;
 }
 
@@ -42,7 +43,7 @@ int print_list(node *head){
 int main(){
     int value;
     int mode;
-    node *head = NULL;.
+    node *head = NULL;
     while(1){
         if( 1 != scanf("%d", &mode)){
             mode = 4;
