@@ -1,7 +1,11 @@
 #include <stdio.h>
 
 int main(){
-    int n, d, i, p = 0, start = 0;;
+    int n;
+    int d;
+    int i;
+    int p = 0;
+    int start = 0;
     scanf("%d%d", &n, &d);
     int weight[n], max = 0;
     for (i = 0; i < n; i++){
@@ -12,8 +16,11 @@ int main(){
     while (1){
         int sum = 0;
         for ( i = start; i < n; i++){
-            if ((sum + weight[i]) <= max)
+            if ((sum + weight[i]) <= max){
                 sum += weight[i];
+                if (i == n-1)
+                    start = n-1;
+            }
             else{
                 p += 1;
                 start = i;
