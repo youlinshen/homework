@@ -625,6 +625,147 @@ typedef unsigned integer type uint8_t;
     1
 
 # string.h
+範例
+輸出
+
+## strcpy()
+
+>把 src 所指向的字串複製到 dest
+
+Return Value
+>This returns a pointer to the destination string dest.
+
+char *strcpy(char *dest, const char *src)
+
+範例
+
+    #include <stdio.h>
+    #include <string.h>
+
+    int main () {
+    char a1[15];
+    strcpy(a1, "abcdef");
+    printf("%s", a1);
+    return 0;
+    }
+    
+輸出
+
+    abcdef
+
+## strncpy()
+
+>把 src 所指向的字串複製到 dest，最多複製 n 個字元。當 src 的長度小於 n 時，dest 的剩餘部分將用空字元填充
+
+Return Value
+>This function returns the pointer to the copied string.
+
+char *strncpy(char *dest, const char *src, size_t n)
+
+範例
+
+    #include <stdio.h>
+    #include <string.h>
+
+    int main () {
+    char a1[15] = "abcdef";
+    char a2[5];
+    strncpy(a2, a1, 3);
+    printf("%s", a2);
+    return 0;
+    }
+    
+輸出
+
+    abc
+
+## strcmp()
+
+>用於比較兩個字串是否相等
+
+Return Value
+>This function return values that are as follows −
+>
+>if Return value < 0 then it indicates str1 is less than str2.
+>
+>if Return value > 0 then it indicates str2 is less than str1.
+>
+>if Return value = 0 then it indicates str1 is equal to str2.
+
+int strcmp(const char *str1, const char *str2)
+
+範例
+
+    #include <stdio.h>
+    #include <string.h>
+
+    int main () {
+       char a1[15];
+       char a2[15];
+       int p;
+
+       strcpy(a1, "abcdef");
+       strcpy(a2, "ABCDEF");
+
+       p = strcmp(a1, a2);
+
+       if(p < 0)
+          printf("a1 is less than a2");
+       else if(p > 0)
+          printf("a2 is less than a1");
+       else
+          printf("a1 is equal to a2");
+   
+       return 0;
+    }
+
+輸出
+
+    a2 is less than a1
+
+## strncmp()
+
+>用於比較兩個字串的前 n 個字元是否相等
+
+Return Value
+>This function return values that are as follows −
+>
+>if Return value < 0 then it indicates str1 is less than str2.
+>
+>if Return value > 0 then it indicates str2 is less than str1.
+>
+>if Return value = 0 then it indicates str1 is equal to str2.
+
+int strncmp(const char *str1, const char *str2, size_t n)
+
+範例
+
+    #include <stdio.h>
+    #include <string.h>
+
+    int main () {
+       char a1[15];
+       char a2[15];
+       int p;
+
+       strcpy(a1, "abcdef");
+       strcpy(a2, "ABCDEF");
+
+       p = strncmp(a1, a2, 4);
+
+       if(p < 0)
+          printf("a1 is less than a2");
+       else if(p > 0)
+          printf("a2 is less than a1");
+       else
+          printf("a1 is equal to a2");
+   
+       return 0;
+    }
+
+輸出
+
+    a2 is less than a1
 
 # References
 1. https://www.tutorialspoint.com/c_standard_library/index.htm
