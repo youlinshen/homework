@@ -457,10 +457,6 @@ int abs(int x)
 
 # string.h
 
-# time.h 
-
-# stdbool.h
-
 # References
 1. https://www.tutorialspoint.com/c_standard_library/index.htm
 2. https://www.runoob.com/cprogramming/c-standard-library.html
