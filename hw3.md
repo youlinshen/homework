@@ -69,8 +69,6 @@ int isspace(int c);
 
     a1 = |A| 不是空白字符
     a2 = | | 是空白字符
-    
-## isalnum()
 
 ## isalpha()
 
