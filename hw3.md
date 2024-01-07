@@ -478,6 +478,109 @@ long int labs(long int x)
 
     10
 
+## div()
+
+>把 numer（分子）除以 denom（分母）
+
+Return Value
+>This function returns the value in a structure defined in <cstdlib>, which has two members. For div_t:int quot; int rem;
+
+div_t div(int numer, int denom)
+
+範例
+
+    #include <stdio.h>
+    #include <stdlib.h>
+
+    int main () {
+       div_t a;
+
+       a = div(25, 3);
+       printf("Quotient part of (25/ 3) = %d\n", a.quot);
+       printf("Remainder part of (25/3) = %d\n", a.rem);
+
+       a = div(20, 7);
+       printf("Quotient part of (20/ 7) = %d\n", a.quot);
+       printf("Remainder part of (20/7) = %d\n", a.rem);
+
+       return 0;
+    }
+
+輸出
+
+    uotient part of (25/ 3) = 8
+    Remainder part of (25/3) = 1
+    Quotient part of (20/ 7) = 2
+    Remainder part of (20/7) = 6
+
+## ldiv()
+
+>把 numer（分子）除以 denom（分母）
+
+Return Value
+>This function returns the value in a structure defined in <cstdlib>, which has two members. For ldiv_t:long quot; long rem;
+
+ldiv_t ldiv(long int numer, long int denom)
+
+範例
+
+    #include <stdio.h>
+    #include <stdlib.h>
+
+    int main () {
+       
+       ldiv_t a;
+
+       a = ldiv(25, 3);
+       printf("Quotient part of (25/ 3) = %d\n", a.quot);
+       printf("Remainder part of (25/3) = %d\n", a.rem);
+
+       a = ldiv(20, 7);
+       printf("Quotient part of (20/ 7) = %d\n", a.quot);
+       printf("Remainder part of (20/7) = %d\n", a.rem);
+
+       return 0;
+    }
+
+輸出
+
+    uotient part of (25/ 3) = 8
+    Remainder part of (25/3) = 1
+    Quotient part of (20/ 7) = 2
+    Remainder part of (20/7) = 6
+
+## rand()
+
+>傳回一個介於 0 到 RAND_MAX 之間的偽隨機數
+
+Return Value
+>This function returns an integer value between 0 and RAND_MAX.
+
+int rand(void)
+
+範例
+
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <time.h>
+ 
+    int main(){
+       int i;
+       srand(time(NULL));
+       for( i = 0 ; i < 5 ; i++ ) {
+          printf("%d\n", rand()%(50)+1);
+       }
+      return(0);
+    }
+
+輸出
+
+    15
+    26
+    31
+    44
+    20
+    
 # stdint.h
 
 # string.h

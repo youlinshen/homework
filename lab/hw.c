@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
  
-    int main(){
-        long int a = -10;
-        a = abs(a);
-        printf("%ld", a);
-    }
+int main(){
+   int i;
+   srand(time(NULL));
+   for( i = 0 ; i < 5 ; i++ ) {
+      printf("%d\n", rand()%(50)+1);
+   }
+  return(0);
+}
