@@ -71,10 +71,107 @@ int isspace(int c);
     a2 = | | 是空白字符
     
 ## isalnum()
+
 ## isalpha()
+
+>檢查傳遞的字元是否為字母
+
+Return Value
+>This function returns non-zero value if c is an alphabet, else it returns 0.
+
+int isalpha(int c);
+
+範例
+
+    #include <stdio.h>
+    #include <ctype.h>
+
+    int main(){
+       int a1 = 'A';
+       int a2 = ' ';
+
+    if( isalpha(a1) )
+       printf("a1 = |%c| 是字母\n", a1 );
+    else
+       printf("a1 = |%c| 不是字母\n", a1 );
+    if( isalpha(a2) )
+       printf("a2 = |%c| 是字母\n", a2 );
+    else
+       printf("a2 = |%c| 不是字母\n", a2 );
+    return 0;
+    }
+
+
+輸出
+
+    a1 = |A| 是字母
+    a2 = | | 不是字母
+
 ## isupper()
+
+>檢查傳遞的字元是否為大寫字母
+ 
+Return Value
+>This function returns a non-zero value(true) if c is an uppercase alphabetic letter else, zero (false).
+
+int isupper(int c);
+
+範例
+
+    #include <stdio.h>
+    #include <ctype.h>
+
+    int main(){
+        int a1 = 'A';
+        int a2 = 'f';
+        if( isupper(a1) )
+           printf("a1 = |%c| 是大寫字母\n", a1 );
+        else
+           printf("a1 = |%c| 不是大寫字母\n", a1 );
+        if( isupper(a2) )
+           printf("a2 = |%c| 是大寫字母\n", a2 );
+        else
+           printf("a2 = |%c| 不是大寫字母\n", a2 );
+        return 0;
+    }
+
+輸出
+
+    a1 = |A| 是大寫字母
+    a2 = |f| 不是大寫字母
+
 ## islower()
 
+>檢查傳遞的字元是否為小寫字母
+ 
+Return Value
+>This function returns a non-zero value(true) if c is a lowercase alphabetic letter else, zero (false).
+
+int islower(int c);
+
+範例
+
+    #include <stdio.h>
+    #include <ctype.h>
+
+    int main(){
+        int a1 = 'A';
+        int a2 = 'f';
+        if( islower(a1) )
+           printf("a1 = |%c| 是小寫字母\n", a1 );
+        else
+           printf("a1 = |%c| 不是小寫字母\n", a1 );
+        if( islower(a2) )
+           printf("a2 = |%c| 是小寫字母\n", a2 );
+        else
+           printf("a2 = |%c| 不是小寫字母\n", a2 );
+        return 0;
+    }
+
+輸出
+
+    a1 = |A| 不是小寫字母
+    a2 = |f| 是小寫字母
 
 ## tolower()
 
