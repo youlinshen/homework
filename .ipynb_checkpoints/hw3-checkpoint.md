@@ -625,8 +625,31 @@ typedef unsigned integer type uint8_t;
     1
 
 # string.h
+
+## strlen()
+
+>計算字串 str 的長度，直到结束字元，但不包括結束字元
+
+Return Value
+>This function returns the length of string.
+
+size_t strlen(const char *str)
+
 範例
+
+    #include <stdio.h>
+    #include <string.h>
+
+    int main (){
+    char a1[16];
+    strcpy(a1, "This is a book");
+    printf("%s 的長度是 %ld\n", a1, strlen(a1));
+    return 0;
+    }
+    
 輸出
+
+    This is a book 的長度是 14
 
 ## strcpy()
 
@@ -770,3 +793,4 @@ int strncmp(const char *str1, const char *str2, size_t n)
 # References
 1. https://www.tutorialspoint.com/c_standard_library/index.htm
 2. https://www.runoob.com/cprogramming/c-standard-library.html
+3. https://zh.wikipedia.org/zh-tw/Stdint.h
