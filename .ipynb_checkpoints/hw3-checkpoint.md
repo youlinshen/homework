@@ -583,6 +583,47 @@ int rand(void)
     
 # stdint.h
 
+>義了具有特定位寬的整型，以及對應的宏；還列出了在其他標準頭文件中定義的整型的極限
+
+## int8_t
+## int16_t
+## int32_t
+## int64_t
+## uint8_t
+
+typedef signed integer type int8_t;   
+typedef signed integer type int16_t;   
+typedef signed integer type int32_t;    
+typedef signed integer type int64_t;  
+typedef unsigned integer type uint8_t;
+
+範例
+
+    #include <stdio.h>
+    #include <stdint.h>
+ 
+    int main(){
+        int8_t a;
+        int16_t b;
+        int32_t c;
+        int64_t d;
+        uint8_t e;
+        printf("%ld\n", sizeof(a));
+        printf("%ld\n", sizeof(b));
+        printf("%ld\n", sizeof(c));
+        printf("%ld\n", sizeof(d));
+        printf("%ld\n", sizeof(e));
+        return 0;
+    }
+
+輸出
+
+    1
+    2
+    4
+    8
+    1
+
 # string.h
 
 # References
