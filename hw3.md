@@ -439,7 +439,32 @@ Return Value
 # **stdlib.h**
 
 ## abs()
+
+>返回 x 的絕對值
+
 int abs(int x)
+
+範例
+
+    #include <stdio.h>
+    #include <stdlib.h>
+ 
+    int main(){
+        int a = -10;
+        a = abs(a);
+        printf("%d", a);
+    }
+輸出
+
+    10
+
+## labs()
+
+>返回 x 的絕對值
+
+long int labs(long int x)
+
+範例
 
     #include <stdio.h>
     #include <stdlib.h>
