@@ -36,6 +36,96 @@ assert(int expression)
 
 # **ctype.h**
 
+## isspace()
+
+>檢查所傳的字符是否是空白字元
+
+Return Value
+>This function returns a non-zero value(true) if c is a white-space character else, zero (false).
+
+int isspace(int c);
+
+範例
+
+    #include <stdio.h>
+    #include <ctype.h>
+
+    int main(){
+       int a1 = 'A';
+       int a2 = ' ';
+
+    if( isspace(a1) )
+       printf("a1 = |%c| 是空白字符\n", a1 );
+    else
+       printf("a1 = |%c| 不是空白字符\n", a1 );
+    if( isspace(a2) )
+       printf("a2 = |%c| 是空白字符\n", a2 );
+    else
+       printf("a2 = |%c| 不是空白字符\n", a2 );
+    return 0;
+    }
+
+輸出
+
+    a1 = |A| 不是空白字符
+    a2 = | | 是空白字符
+    
+## isalnum()
+## isalpha()
+## isupper()
+## islower()
+
+
+## tolower()
+
+>把給定的字母轉換為小寫字母
+
+Return Value
+>This function returns lowercase equivalent to c, if such value exists, else c remains unchanged. The value is returned as an int value that can be implicitly casted to char.
+
+int tolower(int c);
+
+範例
+
+    #include <stdio.h>
+    #include <ctype.h>
+
+    int main(){
+        char a[10] = "CtYpe.H";
+        for( int i = 0; i < 8; i++)
+            printf("%c", tolower(a[i]));
+        return 0;
+    }
+
+輸出
+
+    ctype.h
+    
+## toupper()
+
+>把給定的字母轉換為大寫字母
+
+Return Value
+>This function returns uppercase equivalent to c, if such value exists, else c remains unchanged. The value is returned as an int value that can be implicitly casted to char.
+
+int toupper(int c);
+
+範例
+
+    #include <stdio.h>
+    #include <ctype.h>
+
+    int main(){
+        char a[10] = "CtYpe.H";
+        for( int i = 0; i < 8; i++)
+            printf("%c", toupper(a[i]));
+        return 0;
+    }
+
+輸出
+
+    CTYPE.H
+    
 # **math.h**
 > 在linux的環境下使用math.h裡的函數，在編譯時必須加上參數-lm
 
