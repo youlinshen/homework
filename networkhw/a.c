@@ -12,58 +12,55 @@
 #define HELP 6385292014
 #define QUIT 6385632776
 
-
 typedef struct commandType {
     char command[100];
     char parameter[100];
 } command_t;
 
-
-command_t *parser(char * commandStr) {
+command_t *parser(char *commandStr) {
     command_t *cmd = (command_t *)malloc(sizeof(command_t));
     sscanf(commandStr, "%s", cmd->command);
-    int x = strlen(cmd->command)+1;
-    sscanf(commandStr+x, "%[^\n]", cmd->parameter);
+    int x = strlen(cmd->command) + 1;
+    sscanf(commandStr + x, "%[^\n]", cmd->parameter);
     return cmd;
 }
 
 const unsigned long hash(const char *str) {
-    unsigned long hash = 5381;  
+    unsigned long hash = 5381;
     int c;
-
     while ((c = *str++))
         hash = ((hash << 5) + hash) + c;
     return hash;
 }
 
-void changeDir(char *dir){
+void changeDir(char *dir) {
     chdir(dir);
 }
 
-void printenv(char *arg){
+void printenv(char *arg) {
     printf("printenv %s\n", arg);
 }
 
-void mysetenv(char *arg){
+void mysetenv(char *arg) {
     printf("setenv %s\n", arg);
 }
 
-void help(){
+void help() {
     puts("\n WELCOME TO SHELL HELP"
-        "\n commands supported"
-        "\n>cd"
-        "\n>setenv"
-        "\n>printenv"
-        "\n>quit"
-        "\n>help");
+         "\n commands supported"
+         "\n>cd"
+         "\n>setenv"
+         "\n>printenv"
+         "\n>quit"
+         "\n>help");
 }
 
-void quit(){
+void quit() {
     printf("\nGoodbye\n");
     exit(EXIT_SUCCESS);
 }
 
-
+// 处理外部命令
 void execExternalCommand(command_t *cmd) {
     char *args[64] = {0};  // 用于存放命令及其参数
     char commandPath[256] = {0};
@@ -71,11 +68,6 @@ void execExternalCommand(command_t *cmd) {
 
     // 获取外部命令的路径，例如从 bin 目录中查找
     snprintf(commandPath, sizeof(commandPath), "/home/shen/Documents/code/test/bin/%s", cmd->command);
-    
-    // 构建命令的参数列表
-    //args[0] = commandPath;  // 第一个参数是命令本身
-    //args[1] = cmd->parameter;
-    //args[2] = NULL;          // 用 NULL 结束参数列表
 
     // 将命令本身作为 args[0]
     args[i++] = cmd->command;
@@ -87,11 +79,6 @@ void execExternalCommand(command_t *cmd) {
         token = strtok(NULL, " ");
     }
     args[i] = NULL;  // 最后一个元素设置为 NULL，execvp 需要
-
-
-    for (int j = 0; args[j] != NULL; j++) {
-    printf("arg[%d]: %s\n", j, args[j]);
-    }
 
     pid_t pid = fork();
     if (pid == 0) {
@@ -109,50 +96,109 @@ void execExternalCommand(command_t *cmd) {
     }
 }
 
-void Buildin(command_t *cmd){
-    switch (hash(cmd->command)){
+// 管道命令处理
+void execPipeCommand(char *commandStr) {
+    char *cmds[2]; // 用于存放两个命令
+    pid_t pid1, pid2;
+    int pipefd[2];  // 用于管道的文件描述符
+
+    // 使用管道符（|）分割命令
+    cmds[0] = strtok(commandStr, "|");
+    cmds[1] = strtok(NULL, "|");
+
+    if (cmds[0] != NULL && cmds[1] != NULL) {
+        // 创建管道
+        if (pipe(pipefd) == -1) {
+            perror("pipe failed");
+            return;
+        }
+
+        pid1 = fork();
+        if (pid1 == 0) {
+            // 第一个命令的子进程
+            close(pipefd[0]); // 关闭管道的读端
+            dup2(pipefd[1], STDOUT_FILENO); // 重定向标准输出到管道的写端
+            close(pipefd[1]);
+            
+            command_t *cmd1 = parser(cmds[0]);
+            execExternalCommand(cmd1);
+            free(cmd1);
+            exit(1);
+        } else if (pid1 < 0) {
+            perror("fork failed for command 1");
+            return;
+        }
+
+        pid2 = fork();
+        if (pid2 == 0) {
+            // 第二个命令的子进程
+            close(pipefd[1]); // 关闭管道的写端
+            dup2(pipefd[0], STDIN_FILENO); // 重定向标准输入到管道的读端
+            close(pipefd[0]);
+
+            command_t *cmd2 = parser(cmds[1]);
+            execExternalCommand(cmd2);
+            free(cmd2);
+            exit(1);
+        } else if (pid2 < 0) {
+            perror("fork failed for command 2");
+            return;
+        }
+
+        // 父进程等待两个子进程
+        close(pipefd[0]);
+        close(pipefd[1]);
+        waitpid(pid1, NULL, 0);
+        waitpid(pid2, NULL, 0);
+    } else {
+        printf("Invalid pipe command\n");
+    }
+}
+
+void Buildin(command_t *cmd) {
+    switch (hash(cmd->command)) {
     case CD:
         changeDir(cmd->parameter);
         break;
-
     case PRINTENV:
         printenv(cmd->parameter);
         break;
-
     case SETENV:
         mysetenv(cmd->parameter);
         break;
-
     case HELP:
         help();
         break;
-
     case QUIT:
         quit();
         break;
-
     default:
-        execExternalCommand(cmd);  
+        execExternalCommand(cmd);
         break;
     }
 }
 
-
-
 int main() {
-    char commandStr[256]={0};
-    command_t *cmd=NULL;
+    char commandStr[256] = {0};
+    command_t *cmd = NULL;
     do {
         printf("MyShell%% ");
         fgets(commandStr, sizeof(commandStr), stdin);
-        cmd = parser(commandStr);
-        Buildin(cmd);
-        //printf("cmd->command = %s\n",cmd->command);
-        //printf("cmd->parameter = %s\n", cmd->parameter);
-        //printf("cmd->command = %s\n", cmd->command);
-        //printf("cmd->parameter = %s\n", cmd->parameter);
-        free(cmd);
-        memset(cmd->parameter, 0, sizeof(cmd->parameter));
-        //printf("cmd->parameter = %s\n", cmd->parameter);
-    } while (strcmp(commandStr, "quit\n") != 0);
+
+        // 去掉换行符
+        commandStr[strcspn(commandStr, "\n")] = 0;
+
+        // 如果命令中包含管道符（|）
+        if (strchr(commandStr, '|') != NULL) {
+            execPipeCommand(commandStr);
+        } else {
+            cmd = parser(commandStr);
+            Buildin(cmd);
+            memset(cmd->parameter, 0, sizeof(cmd->parameter));
+            free(cmd);
+        }
+
+    } while (strcmp(commandStr, "quit") != 0);
+
+    return 0;
 }
