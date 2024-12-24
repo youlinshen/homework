@@ -37,8 +37,26 @@ void changeDir(char *dir) {
     chdir(dir);
 }
 
-void printenv(char *arg) {
+/*void printenv(char *arg) {
     printf("printenv %s\n", arg);
+}*/
+
+void printenv(char *arg) {
+    if (arg[0] == '\0') {
+        // 如果没有参数，打印所有环境变量
+        extern char **environ;
+        for (char **env = environ; *env != NULL; env++) {
+            printf("%s\n", *env);
+        }
+    } else {
+        // 打印指定环境变量
+        char *value = getenv(arg);
+        if (value != NULL) {
+            printf("%s=%s\n", arg, value);
+        } else {
+            printf("Environment variable %s not found\n", arg);
+        }
+    }
 }
 
 void mysetenv(char *arg) {
@@ -63,11 +81,8 @@ void quit() {
 // 处理外部命令
 void execExternalCommand(command_t *cmd) {
     char *args[64] = {0};  // 用于存放命令及其参数
-    char commandPath[256] = {0};
     int i = 0;
 
-    // 获取外部命令的路径，例如从 bin 目录中查找
-    snprintf(commandPath, sizeof(commandPath), "/home/shen/Documents/code/test/bin/%s", cmd->command);
 
     // 将命令本身作为 args[0]
     args[i++] = cmd->command;
@@ -83,8 +98,9 @@ void execExternalCommand(command_t *cmd) {
     pid_t pid = fork();
     if (pid == 0) {
         // 子进程执行外部命令
-        if (execvp(commandPath, args) == -1) {
-            perror("execvp failed");
+        if (execvp(cmd->command, args) == -1) {
+            // 如果执行失败，打印错误信息
+            printf("Unknown command: [%s].\n", cmd->command);
         }
         exit(1);  // 执行失败时退出
     } else if (pid < 0) {
@@ -96,8 +112,40 @@ void execExternalCommand(command_t *cmd) {
     }
 }
 
-// 管道命令处理
 void execPipeCommand(char *commandStr) {
+    pid_t pid;
+    int pipefd[2];
+    int fd_in = 0;  // 管道的输入端
+
+    char *cmd = strtok(commandStr, "|");
+    while (cmd != NULL) {
+        pipe(pipefd);
+        pid = fork();
+        if (pid == 0) {
+            // 子进程
+            dup2(fd_in, 0);  // 将前一个命令的输出连接到当前命令的输入
+            if (strtok(NULL, "|") != NULL) {
+                dup2(pipefd[1], 1);  // 如果还有下一个命令，将标准输出连接到管道
+            }
+            close(pipefd[0]);
+            execExternalCommand(parser(cmd));
+            exit(1);
+        } else if (pid < 0) {
+            perror("fork failed");
+            return;
+        } else {
+            // 父进程
+            wait(NULL);
+            close(pipefd[1]);
+            fd_in = pipefd[0];  // 下一次的输入端为当前的管道读端
+            cmd = strtok(NULL, "|");
+        }
+    }
+}
+
+
+// 管道命令处理
+/*void execPipeCommand(char *commandStr) {
     char *cmds[2]; // 用于存放两个命令
     pid_t pid1, pid2;
     int pipefd[2];  // 用于管道的文件描述符
@@ -153,7 +201,7 @@ void execPipeCommand(char *commandStr) {
     } else {
         printf("Invalid pipe command\n");
     }
-}
+}*/
 
 void Buildin(command_t *cmd) {
     switch (hash(cmd->command)) {
@@ -179,6 +227,7 @@ void Buildin(command_t *cmd) {
 }
 
 int main() {
+    setenv("PATH", "./bin:.", 1);
     char commandStr[256] = {0};
     command_t *cmd = NULL;
     do {
