@@ -18,12 +18,76 @@ typedef struct commandType {
 } command_t;
 
 command_t *parser(char *commandStr) {
-    command_t *cmd = (command_t *)malloc(sizeof(command_t));
-    sscanf(commandStr, "%s", cmd->command);
-    int x = strlen(cmd->command) + 1;
-    sscanf(commandStr + x, "%[^\n]", cmd->parameter);
+    command_t *cmd = (command_t *)calloc(1, sizeof(command_t));
+    sscanf(commandStr, "%s %s", cmd->command, cmd->parameter);
+    //sscanf(commandStr, "%s", cmd->command);
+    //int x = strlen(cmd->command) + 1;
+    //sscanf(commandStr + x, "%[^\n]", cmd->parameter);
     return cmd;
 }
+
+void execExternalCommand(command_t *cmd) {
+    char *args[64] = {0};  // 用于存放命令及其参数
+    int i = 0;
+    
+    // 将命令本身作为 args[0]
+    args[i++] = cmd->command;
+
+    // 使用 strtok 分割参数
+    char *token = strtok(cmd->parameter, " ");
+    while (token != NULL) {
+        args[i++] = token;
+        token = strtok(NULL, " ");
+    }
+    args[i] = NULL;  // 最后一个元素设置为 NULL，execvp 需要
+
+    pid_t pid = fork();
+    switch (pid){
+    case -1:
+        perror("fork failed\n");
+        exit(EXIT_FAILURE);
+    case 0:
+        if (execvp(cmd->command, args) == -1) {
+            // 如果执行失败，打印错误信息
+            printf("Unknown command: [%s].\n", cmd->command);
+        }
+        exit(EXIT_FAILURE);  // 执行失败时退出
+    default:
+        wait(NULL);
+    }
+}
+
+void execPipeCommand(char *commandStr) {
+    pid_t pid;
+    int pipefd[2];
+    int fd_in = 0;  // 管道的输入端
+
+    char *cmd = strtok(commandStr, "|");
+    while (cmd != NULL) {
+        pipe(pipefd);
+        pid = fork();
+        if (pid == 0) {
+            // 子进程
+            dup2(fd_in, 0);  // 将前一个命令的输出连接到当前命令的输入
+            if (strtok(NULL, "|") != NULL) {
+                dup2(pipefd[1], 1);  // 如果还有下一个命令，将标准输出连接到管道
+            }
+            close(pipefd[0]);
+            execExternalCommand(parser(cmd));
+            exit(1);
+        } else if (pid < 0) {
+            perror("fork failed");
+            return;
+        } else {
+            // 父进程
+            wait(NULL);
+            close(pipefd[1]);
+            fd_in = pipefd[0];  // 下一次的输入端为当前的管道读端
+            cmd = strtok(NULL, "|");
+        }
+    }
+}
+
 
 const unsigned long hash(const char *str) {
     unsigned long hash = 5381;
@@ -36,10 +100,6 @@ const unsigned long hash(const char *str) {
 void changeDir(char *dir) {
     chdir(dir);
 }
-
-/*void printenv(char *arg) {
-    printf("printenv %s\n", arg);
-}*/
 
 void printenv(char *arg) {
     if (arg[0] == '\0') {
@@ -78,131 +138,6 @@ void quit() {
     exit(EXIT_SUCCESS);
 }
 
-// 处理外部命令
-void execExternalCommand(command_t *cmd) {
-    char *args[64] = {0};  // 用于存放命令及其参数
-    int i = 0;
-
-
-    // 将命令本身作为 args[0]
-    args[i++] = cmd->command;
-
-    // 使用 strtok 分割参数
-    char *token = strtok(cmd->parameter, " ");
-    while (token != NULL) {
-        args[i++] = token;
-        token = strtok(NULL, " ");
-    }
-    args[i] = NULL;  // 最后一个元素设置为 NULL，execvp 需要
-
-    pid_t pid = fork();
-    if (pid == 0) {
-        // 子进程执行外部命令
-        if (execvp(cmd->command, args) == -1) {
-            // 如果执行失败，打印错误信息
-            printf("Unknown command: [%s].\n", cmd->command);
-        }
-        exit(1);  // 执行失败时退出
-    } else if (pid < 0) {
-        // fork 失败
-        perror("fork failed");
-    } else {
-        // 父进程等待子进程结束
-        wait(NULL);
-    }
-}
-
-void execPipeCommand(char *commandStr) {
-    pid_t pid;
-    int pipefd[2];
-    int fd_in = 0;  // 管道的输入端
-
-    char *cmd = strtok(commandStr, "|");
-    while (cmd != NULL) {
-        pipe(pipefd);
-        pid = fork();
-        if (pid == 0) {
-            // 子进程
-            dup2(fd_in, 0);  // 将前一个命令的输出连接到当前命令的输入
-            if (strtok(NULL, "|") != NULL) {
-                dup2(pipefd[1], 1);  // 如果还有下一个命令，将标准输出连接到管道
-            }
-            close(pipefd[0]);
-            execExternalCommand(parser(cmd));
-            exit(1);
-        } else if (pid < 0) {
-            perror("fork failed");
-            return;
-        } else {
-            // 父进程
-            wait(NULL);
-            close(pipefd[1]);
-            fd_in = pipefd[0];  // 下一次的输入端为当前的管道读端
-            cmd = strtok(NULL, "|");
-        }
-    }
-}
-
-
-// 管道命令处理
-/*void execPipeCommand(char *commandStr) {
-    char *cmds[2]; // 用于存放两个命令
-    pid_t pid1, pid2;
-    int pipefd[2];  // 用于管道的文件描述符
-
-    // 使用管道符（|）分割命令
-    cmds[0] = strtok(commandStr, "|");
-    cmds[1] = strtok(NULL, "|");
-
-    if (cmds[0] != NULL && cmds[1] != NULL) {
-        // 创建管道
-        if (pipe(pipefd) == -1) {
-            perror("pipe failed");
-            return;
-        }
-
-        pid1 = fork();
-        if (pid1 == 0) {
-            // 第一个命令的子进程
-            close(pipefd[0]); // 关闭管道的读端
-            dup2(pipefd[1], STDOUT_FILENO); // 重定向标准输出到管道的写端
-            close(pipefd[1]);
-            
-            command_t *cmd1 = parser(cmds[0]);
-            execExternalCommand(cmd1);
-            free(cmd1);
-            exit(1);
-        } else if (pid1 < 0) {
-            perror("fork failed for command 1");
-            return;
-        }
-
-        pid2 = fork();
-        if (pid2 == 0) {
-            // 第二个命令的子进程
-            close(pipefd[1]); // 关闭管道的写端
-            dup2(pipefd[0], STDIN_FILENO); // 重定向标准输入到管道的读端
-            close(pipefd[0]);
-
-            command_t *cmd2 = parser(cmds[1]);
-            execExternalCommand(cmd2);
-            free(cmd2);
-            exit(1);
-        } else if (pid2 < 0) {
-            perror("fork failed for command 2");
-            return;
-        }
-
-        // 父进程等待两个子进程
-        close(pipefd[0]);
-        close(pipefd[1]);
-        waitpid(pid1, NULL, 0);
-        waitpid(pid2, NULL, 0);
-    } else {
-        printf("Invalid pipe command\n");
-    }
-}*/
-
 void Buildin(command_t *cmd) {
     switch (hash(cmd->command)) {
     case CD:
@@ -240,14 +175,14 @@ int main() {
         // 如果命令中包含管道符（|）
         if (strchr(commandStr, '|') != NULL) {
             execPipeCommand(commandStr);
-        } else {
+        }
+        else {
             cmd = parser(commandStr);
+            if (cmd->command[0] == '\0')
+                continue;
             Buildin(cmd);
-            memset(cmd->parameter, 0, sizeof(cmd->parameter));
             free(cmd);
         }
-
-    } while (strcmp(commandStr, "quit") != 0);
-
+    } while (1);
     return 0;
 }
