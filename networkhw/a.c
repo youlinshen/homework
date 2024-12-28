@@ -6,7 +6,6 @@
 #include <sys/wait.h>
 
 #define CD 5863276
-#define LS 5863588
 #define PRINTENV 7572809511666715
 #define SETENV 6954013771834
 #define HELP 6385292014
@@ -20,9 +19,6 @@ typedef struct commandType {
 command_t *parser(char *commandStr) {
     command_t *cmd = (command_t *)calloc(1, sizeof(command_t));
     sscanf(commandStr, "%s %s", cmd->command, cmd->parameter);
-    //sscanf(commandStr, "%s", cmd->command);
-    //int x = strlen(cmd->command) + 1;
-    //sscanf(commandStr + x, "%[^\n]", cmd->parameter);
     return cmd;
 }
 
@@ -49,7 +45,8 @@ void execExternalCommand(command_t *cmd) {
     case 0:
         if (execvp(cmd->command, args) == -1) {
             // 如果执行失败，打印错误信息
-            printf("Unknown command: [%s].\n", cmd->command);
+            fprintf(stderr, "Unknown command: [%s].\n", cmd->command);
+            //printf("Unknown command: [%s].\n", cmd->command);
         }
         exit(EXIT_FAILURE);  // 执行失败时退出
     default:
@@ -74,10 +71,10 @@ void execPipeCommand(char *commandStr) {
             }
             close(pipefd[0]);
             execExternalCommand(parser(cmd));
-            exit(1);
+            exit(EXIT_FAILURE);
         } else if (pid < 0) {
-            perror("fork failed");
-            return;
+            perror("fork failed\n");
+            exit(EXIT_FAILURE);
         } else {
             // 父进程
             wait(NULL);
@@ -87,7 +84,6 @@ void execPipeCommand(char *commandStr) {
         }
     }
 }
-
 
 const unsigned long hash(const char *str) {
     unsigned long hash = 5381;
@@ -120,7 +116,15 @@ void printenv(char *arg) {
 }
 
 void mysetenv(char *arg) {
-    printf("setenv %s\n", arg);
+    // 设置 PATH 环境变量为 arg 的值
+    if (arg[0] != '\0') {
+        if (setenv("PATH", arg, 1) == 0)
+            printf("PATH environment variable set to: %s\n", arg);
+        else
+            perror("setenv failed");
+    } 
+    else
+        printf("Invalid argument\n");
 }
 
 void help() {
@@ -130,7 +134,9 @@ void help() {
          "\n>setenv"
          "\n>printenv"
          "\n>quit"
-         "\n>help");
+         "\n>help"
+         "\n>all other general commands available in bin"
+         "\n>normal pipe handling");
 }
 
 void quit() {
