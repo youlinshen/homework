@@ -5,7 +5,7 @@ const unsigned long hash(const char *str) {
     int c;
 
     while ((c = *str++))
-        hash = ((hash << 5) + hash) + c;
+        hash = ((hash << 5) + hash) + (unsigned char)c;
     return hash;
 }
 
