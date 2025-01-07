@@ -1,7 +1,6 @@
-#student_main <- read.csv("HW2-Student-Main.csv")
-student_main <- read.csv("https://github.com/youlinshen/programming-homework/raw/refs/heads/main/R/HW2-Student-Payment.csv")
-fees <- read.csv("HW2-Fees.csv")
-student_payment <- read.csv("HW2-Student-Payment.csv")
+student_main <- read.csv("https://github.com/youlinshen/programming-homework/raw/refs/heads/main/R/HW2-Student-Main.csv")
+fees <- read.csv("https://github.com/youlinshen/programming-homework/raw/refs/heads/main/R/HW2-Fees.csv")
+student_payment <- read.csv("https://github.com/youlinshen/programming-homework/raw/refs/heads/main/R/HW2-Student-Payment.csv")
 
 total_received <- sum(student_payment$Amount)
 cat("Total amount received from students before due:", total_received, "\n")
