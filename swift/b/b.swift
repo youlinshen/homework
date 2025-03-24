@@ -50,3 +50,28 @@ for num in twentyVariables {
     sur1 += num
 }
 print(sur1)
+
+for (index, layer) in deep.enumerated() {
+    print("layer " + String(index) + " is " + layer)
+}
+
+let max = 20
+var loop = 0
+while loop < max {
+    loop += 1
+}
+print("  " + String(loop) + " loops completed")
+
+let max2 = 200
+let sta = 2
+let dis1 = 7
+var nu1 = sta
+let sizemax = 25
+var size = 1
+repeat{
+    nu1 += dis1
+    size += 1
+}while (nu1 < max2) && (size < sizemax)
+print("size " + String(size))
+print(nu1)
+
