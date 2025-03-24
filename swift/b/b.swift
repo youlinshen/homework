@@ -62,6 +62,15 @@ while loop < max {
 }
 print("  " + String(loop) + " loops completed")
 
+let max1 = 20
+let str = 2
+let dis = 3
+var nu = str
+repeat{
+    nu += dis
+}while (nu < max1)
+print("the last num " + String(nu) + " <= " + String(max1))
+
 let max2 = 200
 let sta = 2
 let dis1 = 7
