@@ -33,3 +33,20 @@ for num in deep {
     print(num)
 }
 
+var tenDou = Array(repeating: 0.0, count: 10)
+var another = Array(repeating: 1.5, count: 10)
+var sur = 0.0
+for num in another {
+    sur += num
+}
+print(sur)
+
+var tenDou1 = Array(repeating: 2.0, count: 10)
+var twentyVariables = [Double]()
+twentyVariables.append(contentsOf: tenDou1)
+twentyVariables.append(contentsOf: another)
+var sur1 = 0.0
+for num in twentyVariables {
+    sur1 += num
+}
+print(sur1)
