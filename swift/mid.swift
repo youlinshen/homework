@@ -143,6 +143,32 @@ struct Hand {
 
 
 enum Category : Int {
- case straightFlush = 1, fourOfaKind, fullHouse, flush, straight, threeOfaKind,
-twoPair, onePair, separate
+    case straightFlush = 1, fourOfaKind, fullHouse, flush, straight, threeOfaKind,
+         twoPair, onePair, separate
 }
+
+
+
+func cat2string(cat: Category) -> String{
+    switch cat.rawValue {
+    case 1:
+        return "straightFlush"
+    case 2:
+        return "fourOfaKind"
+    case 3:
+        return "fullHouse"
+    case 4:
+        return "flush"
+    case 5:
+        return "straight"
+    case 6:
+        return "threeOfaKind"
+    case 7:
+        return "twoPair"
+    case 8:
+        return "onePair"
+    default:
+        return "separate"
+    }
+}
+
