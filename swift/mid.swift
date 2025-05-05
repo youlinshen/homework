@@ -109,7 +109,23 @@ struct Hand {
         return setSuit.count == 1
     }
     func straight() -> Bool{
-        return false
+        var fiveRank = [Int]()
+        for card in fiveCards {
+            let r = card.getRank().rawValue
+            fiveRank.append(r)
+        }
+        fiveRank.sort()
+        if fiveRank[0] == 1 && fiveRank[1] == 10 &&
+            fiveRank[2] == 11 && fiveRank[3] == 12 && fiveRank[4] == 13 {
+            return true
+        }
+        for i in 0...fiveRank.count-2{
+            let d = fiveRank[i+1] - fiveRank[i]
+            if d != 1{
+                return false
+            }
+        }
+        return true
     }
     
     func fourOfaKind() -> Bool{
@@ -136,8 +152,7 @@ struct Hand {
     }
     func separate() -> Bool{
         return false
-    }
-
+    }   
 }
 
 
@@ -170,5 +185,18 @@ func cat2string(cat: Category) -> String{
     default:
         return "separate"
     }
+}
+
+
+
+
+
+
+
+let  game = GameCards()
+let play = Hand(from: game)
+print(play.straight())
+for card in play.fiveCards{
+    print("\(card.getSuit().rawValue),\(card.getRank().rawValue)")
 }
 
