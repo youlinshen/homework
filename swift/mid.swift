@@ -139,3 +139,10 @@ struct Hand {
     }
 
 }
+
+
+
+enum Category : Int {
+ case straightFlush = 1, fourOfaKind, fullHouse, flush, straight, threeOfaKind,
+twoPair, onePair, separate
+}
