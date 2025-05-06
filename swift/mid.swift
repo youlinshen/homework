@@ -97,9 +97,6 @@ struct Hand {
     init(from game: GameCards){
         self.fiveCards = game.getFiveCards()
     }
-    func straightFlush()-> Bool {
-        return self.straight() && self.flush()
-    }
     func flush() -> Bool{
         var setSuit = Set<Suit>()
         for card in fiveCards {
@@ -127,32 +124,40 @@ struct Hand {
         }
         return true
     }
-    
-    func fourOfaKind() -> Bool{
+    func straightFlush()-> Bool {
+        return self.straight() && self.flush()
+    }
+    func onePair() -> Bool {
         var setRank = Set<Rank>()
-        var set2Rank = Set<Rank>()
         for card in fiveCards {
             let rank = card.getRank()
-            if setRank.contains(rank){
-                set2Rank.insert(rank)
-            } else {
-                setRank.insert(rank)
-            }
+            setRank.insert(rank)
         }
-        if setRank.count == 2 && set2Rank.count == 1 {
+        return setRank.count == 4
+    }
+    func separate() -> Bool {
+        var setRank = Set<Rank>()
+        for card in fiveCards {
+            setRank.insert(card.getRank())
+        }
+        return setRank.count == 5
+    }
+    func threeOfaKind() -> Bool {
+        var setRank = Set<Rank>()  
+        var set2Rank = Set<Rank>()
+        for card in fiveCards {
+        let rank = card.getRank()
+            if setRank.contains(rank) {
+                set2Rank.insert(rank) 
+            } else {
+                setRank.insert(rank)   
+        }
+        }
+        if setRank.count == 4 && set2Rank.count == 1 {
             return true
         }
         return false
     }
-    func threeOfaKind() -> Bool{
-        return false
-    }
-    func onePair() -> Bool{
-        return false
-    }
-    func separate() -> Bool{
-        return false
-    }   
 }
 
 
