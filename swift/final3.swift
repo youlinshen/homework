@@ -1,7 +1,14 @@
+ //
+//  ContentView.swift
+//  Shared
+//
+//  Created by NDHU_CSIE on 2025/6/9.
+//
+
 import SwiftUI
 
-// 定义联系人数据模型
-class Prospect: Identifiable, Codable {
+// 定義聯絡人資料模型
+class Prospect: Identifiable, Codable, ObservableObject {
     var id = UUID()
     var name = "Anonymous"
     var emailAddress = ""
@@ -9,7 +16,7 @@ class Prospect: Identifiable, Codable {
     var isContacted = false
 }
 
-// 定义Prospects数据源
+// 聯絡人列表的資料來源
 class Prospects: ObservableObject {
     @Published var people: [Prospect]
     
@@ -18,24 +25,17 @@ class Prospects: ObservableObject {
     }
 }
 
-// MeView 视图（个人信息视图）
+// 個人資料頁面
 struct MeView: View {
     var body: some View {
         Text("Hello, World")
     }
 }
 
-// 个人信息视图预览
-struct MeView_Previews: PreviewProvider {
-    static var previews: some View {
-        MeView()
-            .environmentObject(Prospects()) // 传递环境对象
-    }
-}
-
-// 主视图，包含TabView
+// 主視圖
 struct ContentView: View {
-    @StateObject var prospects = Prospects() // 状态对象，管理联系人数据
+    @StateObject var prospects = Prospects()
+    
     var body: some View {
         TabView {
             ProspectsView(filter: .none)
@@ -55,11 +55,11 @@ struct ContentView: View {
                     Label("Me", systemImage: "person.crop.square")
                 }
         }
-        .environmentObject(prospects) // 传递环境对象给所有子视图
+        .environmentObject(prospects)
     }
 }
 
-// 联系人列表视图
+// 聯絡人列表視圖
 struct ProspectsView: View {
     enum FilterType {
         case none, contacted, uncontacted
@@ -68,36 +68,35 @@ struct ProspectsView: View {
     @EnvironmentObject var prospects: Prospects
     let filter: FilterType
     
-    // 状态变量，存储新联系人输入的内容
     @State private var name = ""
     @State private var emailAddress = ""
-    @State private var selectedHobby = "Reading"  // 默认选中兴趣
+    @State private var selectedHobby = "Reading"
     @State private var isContacted = false
     
-    // 兴趣选项
-    let hobbies = ["Reading", "Gaming", "Sports", "Music", "Cooking", "Traveling"]
+    let hobbies = ["健身", "電影", "游泳", "打球", "其他"]
     
     var body: some View {
         NavigationView {
             VStack {
-                // 输入框
+                // 新增聯絡人表單
                 Form {
                     Section(header: Text("Add New Contact")) {
-                        TextField("Name", text: $name)
-                        TextField("Email", text: $emailAddress)
+                        TextField("姓名", text: $name)
+                        TextField("電子郵件", text: $emailAddress)
                         
-                        // 兴趣选择器
-                        Picker("Hobby", selection: $selectedHobby) {
+                        // 興趣橫向選擇器
+                        Picker("興趣", selection: $selectedHobby) {
                             ForEach(hobbies, id: \.self) { hobby in
                                 Text(hobby)
                             }
                         }
-                        .pickerStyle(MenuPickerStyle())
+                        .pickerStyle(SegmentedPickerStyle())
+
+
                         
-                        Toggle("Contacted", isOn: $isContacted)
+                        Toggle("已聯絡", isOn: $isContacted)
                         
-                        Button("Save") {
-                            // 保存新联系人到联系人列表
+                        Button("Add") {
                             let newProspect = Prospect()
                             newProspect.name = name
                             newProspect.emailAddress = emailAddress
@@ -105,35 +104,29 @@ struct ProspectsView: View {
                             newProspect.isContacted = isContacted
                             prospects.people.append(newProspect)
                             
-                            // 清空输入框
+                            // 清空輸入欄位
                             name = ""
                             emailAddress = ""
-                            selectedHobby = "Reading" // 默认值
+                            selectedHobby = "健身"
                             isContacted = false
                         }
                     }
                 }
                 
-                // 联系人列表
+                // 顯示聯絡人列表
                 List {
                     ForEach(filteredProspects) { prospect in
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .leading, spacing: 5) {
                             Text(prospect.name)
                                 .font(.headline)
                             Text(prospect.emailAddress)
                                 .foregroundColor(.secondary)
                             Text("Hobby: \(prospect.hobby)")
                                 .foregroundColor(.secondary)
-                            Toggle("Contacted", isOn: Binding(
-                                get: { prospect.isContacted },
-                                set: { newValue in
-                                    if let index = prospects.people.firstIndex(where: { $0.id == prospect.id }) {
-                                        prospects.people[index].isContacted = newValue
-                                    }
-                                }
-                            ))
-                            .toggleStyle(SwitchToggleStyle(tint: .blue))
+                            Text("Contacted: \(prospect.isContacted ? "Yes" : "No")")
+                                .foregroundColor(.secondary)
                         }
+                        .padding(.vertical, 5)
                     }
                 }
                 .navigationTitle(title)
@@ -141,17 +134,19 @@ struct ProspectsView: View {
         }
     }
     
+    // 視圖標題
     var title: String {
         switch filter {
         case .none:
             return "Everyone"
         case .contacted:
-            return "Contacted people"
+            return "Contacted People"
         case .uncontacted:
-            return "Uncontacted people"
+            return "Uncontacted People"
         }
     }
     
+    // 根據篩選條件過濾聯絡人
     var filteredProspects: [Prospect] {
         switch filter {
         case .none:
@@ -164,15 +159,7 @@ struct ProspectsView: View {
     }
 }
 
-// 联系人列表预览
-struct ProspectsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProspectsView(filter: .none)
-            .environmentObject(Prospects()) // 预览时传递环境对象
-    }
-}
-
-// 主视图预览
+// 預覽
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
