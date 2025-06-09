@@ -1,4 +1,4 @@
- //
+//
 //  ContentView.swift
 //  Shared
 //
@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// 定義聯絡人資料模型
 class Prospect: Identifiable, Codable, ObservableObject {
     var id = UUID()
     var name = "Anonymous"
@@ -16,7 +15,7 @@ class Prospect: Identifiable, Codable, ObservableObject {
     var isContacted = false
 }
 
-// 聯絡人列表的資料來源
+
 class Prospects: ObservableObject {
     @Published var people: [Prospect]
     
@@ -25,14 +24,13 @@ class Prospects: ObservableObject {
     }
 }
 
-// 個人資料頁面
 struct MeView: View {
     var body: some View {
         Text("Hello, World")
     }
 }
 
-// 主視圖
+
 struct ContentView: View {
     @StateObject var prospects = Prospects()
     
@@ -59,7 +57,7 @@ struct ContentView: View {
     }
 }
 
-// 聯絡人列表視圖
+
 struct ProspectsView: View {
     enum FilterType {
         case none, contacted, uncontacted
@@ -78,21 +76,21 @@ struct ProspectsView: View {
     var body: some View {
         NavigationView {
             VStack {
-                // 新增聯絡人表單
+                
                 Form {
                     Section(header: Text("Add New Contact")) {
                         TextField("姓名", text: $name)
                         TextField("電子郵件", text: $emailAddress)
                         
-                        // 興趣橫向選擇器
+                        
                         Picker("興趣", selection: $selectedHobby) {
                             ForEach(hobbies, id: \.self) { hobby in
                                 Text(hobby)
                             }
                         }
                         .pickerStyle(SegmentedPickerStyle())
-
-
+                        
+                        
                         
                         Toggle("已聯絡", isOn: $isContacted)
                         
@@ -104,7 +102,7 @@ struct ProspectsView: View {
                             newProspect.isContacted = isContacted
                             prospects.people.append(newProspect)
                             
-                            // 清空輸入欄位
+                            
                             name = ""
                             emailAddress = ""
                             selectedHobby = "健身"
@@ -113,7 +111,7 @@ struct ProspectsView: View {
                     }
                 }
                 
-                // 顯示聯絡人列表
+                
                 List {
                     ForEach(filteredProspects) { prospect in
                         VStack(alignment: .leading, spacing: 5) {
@@ -134,7 +132,6 @@ struct ProspectsView: View {
         }
     }
     
-    // 視圖標題
     var title: String {
         switch filter {
         case .none:
@@ -146,7 +143,6 @@ struct ProspectsView: View {
         }
     }
     
-    // 根據篩選條件過濾聯絡人
     var filteredProspects: [Prospect] {
         switch filter {
         case .none:
@@ -159,7 +155,6 @@ struct ProspectsView: View {
     }
 }
 
-// 預覽
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
