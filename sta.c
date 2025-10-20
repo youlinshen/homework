@@ -16,7 +16,8 @@ typedef struct stack{
 int init(stack_t *, int size);
 int isFULL(stack_t *);
 int isEmpty(stack_t *);
-int push(stack_t *);
+int push(stack_t *, int x);
+int pop(stack_t *, int x);
 
 int init(stack_t *stackPtr, int size){
     if (size > 0){
@@ -40,11 +41,20 @@ int isEmpty(stack_t *stackPtr){
 
 int push(stack_t *stackPtr, int x){
     if(!isFULL(stackPtr)){
-        (stackPtr->element + stackPtr->sp + 1) = x;
         stackPtr->sp++;
+        *(stackPtr->element + stackPtr->sp) = x;
         return STACK_OK;
     }
     return STACK_FULL;
 }
+
+int pop(stack_t *stackPtr, int x){
+    if(!isEmpty(stackPtr)){
+        
+        return STACK_OK;
+    }
+    return STACK_EMPTY;
+}
+
 
 
