@@ -17,7 +17,8 @@ int init(stack_t *, int size);
 int isFULL(stack_t *);
 int isEmpty(stack_t *);
 int push(stack_t *, int x);
-int pop(stack_t *, int x);
+int pop(stack_t *, int *x);
+int isExist(stack_t *, int x);
 
 int init(stack_t *stackPtr, int size){
     if (size > 0){
@@ -48,13 +49,20 @@ int push(stack_t *stackPtr, int x){
     return STACK_FULL;
 }
 
-int pop(stack_t *stackPtr, int x){
+int pop(stack_t *stackPtr, int *x){
     if(!isEmpty(stackPtr)){
-        
+        x = stackPtr->element[stackPtr->sp];
+        stackPtr->sp--;
         return STACK_OK;
     }
     return STACK_EMPTY;
 }
 
-
+int isExst(stack_t *stackPtr, int x){
+    for(int i = 0; i <= stackPtr->sp; i++){
+        if(stackPtr->element[i] == x)
+            return 1;
+    }
+    return 0;
+}
 
