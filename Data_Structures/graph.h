@@ -14,12 +14,11 @@ struct Adjacent_list{
     struct Adjacent_list *next;
 };typedef struct Adjacent_list adj;
 
-extern adj *pri_head[Max];
-extern adj *pri_tail[Max];
+//extern adj *priority_head[Max];
+//extern adj *priority_tail[Max];
 
 int insertQ(int priority, adj * NewNode);
 node *deleteQ();
 int initQ();
 
 #endif
-

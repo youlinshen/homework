@@ -1,25 +1,28 @@
 #include "graph.h"
 
-adj *pri_head[Max];
-adj *pri_tail[Max];
+adj *priority_head[Max];
+adj *priority_tail[Max];
 
 int initQ(){
     for(int i = 0; i < Max; i++){
-        pri_head[i] = 0;
-        pri_tail[i] = 0;
+        priority_head[i] = 0;
+        priority_tail[i] = 0;
     }
     return 0;
 }
 
-int insertQ(int priority, adj *node){
-    node->next = 0;
-    if(pri_head[priority] == 0){
-        pri_head[priority] = node;
-        pri_tail[priority] = node;
+int insertQ(int priority, adj *newNode){
+    if (priority < 0 || priority >= Max)
+        return -1;
+    newNode->next = 0;
+
+    if(priority_head[priority] == 0){
+        priority_head[priority] = newNode;
+        priority_tail[priority] = newNode;
     }
     else{
-        pri_tail[priority]->next = node;
-        pri_tail[priority] = node;
+        priority_tail[priority]->next = newNode;
+        priority_tail[priority] = newNode;
     }
     return 0;
 }
@@ -28,15 +31,15 @@ int insertQ(int priority, adj *node){
 node *deleteQ(){
     node *data = 0;
     for(int i = 0; i < Max; i++){
-        if(pri_head[i] != 0){
-            if(pri_head[i]->next != 0){
-            data = pri_head[i]->data;
-            pri_head[i] = pri_head[i]->next;
+        if(priority_head[i] != 0){
+            if(priority_head[i]->next != 0){
+                data = priority_head[i]->data;
+                priority_head[i] = priority_head[i]->next;
             }
             else{
-                data = pri_head[i]->data;
-                pri_head[i] = 0;
-                pri_tail[i] = 0;
+                data = priority_head[i]->data;
+                priority_head[i] = 0;
+                priority_tail[i] = 0;
             }
             break;
         }
